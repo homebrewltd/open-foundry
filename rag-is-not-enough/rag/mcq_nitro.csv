@@ -1,0 +1,1291 @@
+question,a,b,c,d,correct
+How to chat with models?,"A. To send a single query to your chosen LLM, follow these steps:
+```
+curl http://localhost:3928/v1/chat/completions \
+  -H ""Content-Type: application/json"" \
+  -d '{
+    ""model"": """",
+    ""messages"": [
+      {
+        ""role"": ""user"",
+        ""content"": ""Hello""
+      },
+    ]
+  }'
+```","B. 1. Load the model onto the server by running the command provided in step 3 of the context.
+2. Configure Pal Chat as described in step 4 of the context. Make sure to replace """"key-xxxxxx"""" with your OpenAI API Key and enter your LAN IPv4 address in the """"provide custom host"""" setting.
+3. Once you have set up Pal Chat, you can start chatting with the model as described in step 5 of the context.","C. The 'messages' parameter in the 'client.chat.completions.create' method is used to specify the messages that should be used as input for generating the completions. It is a list of dictionaries, where each dictionary represents a message with two keys: 'role' and 'content'. The 'role' key specifies the role of the message (either 'user' or 'assistant'), and the 'content' key specifies the content of the message.",D. Open Pal Chat on your device.,A
+How to use the vision feature?,A. The 'embedding' function in the given context is used to create embeddings for a given input text using the OpenAI API. It uses the 'openai.embeddings.create' method with the 'model' parameter set to 'text-embedding-ada-002'. The input text is passed as an argument to this function.,"B. 1. Load the model using the provided command in the context information. Make sure to replace `""/path/to/gguf/model/""` and `""/path/to/mmproj/model/""` with the actual paths of your downloaded models.
+2. Convert your image to base64 format using an online converter.
+3. Use the provided inference command, replacing the empty string in `""image_url"": { ""url"": """" }` with the base64 string of your image.
+4. Run the command and wait for the response from Nitro's vision model.
+
+Note: The answer assumes that you have already downloaded the required models and have access to the necessary tools like curl and a base64 converter.","C. 1. Download the models from the given links.
+2. Load the models using the provided curl command.
+3. To get the model's understanding of an image, make a POST request to the inference endpoint with the appropriate headers and body. The 'Authorization' header should contain your OpenAI API key, and the 'Content-Type' header should be set to 'application/json'. The body of the request should be a JSON object containing the model name and an array of messages. Each message should have a role ('user') and content (an array with a text and possibly an image).
+4. If the base64 string is too long and causes errors, consider using Postman as an alternative.","D. 1. Download the models from the given links.
+2. Load the models using the provided curl command.
+```
+curl -X POST 'http://127.0.0.1:3928/inferences/llamacpp/loadmodel' -H 'Content-Type: application/json' -d '{
+   ""llama_model_path"": ""/path/to/gguf/model/"",
+   ""mmproj"": ""/path/to/mmproj/model/"",
+   ""ctx_len"": 2048,
+   ""ngl"": 100,
+   ""cont_batching"": false,
+   ""embedding"": false,
+   ""system_prompt"": """",
+   ""user_prompt"": ""\n### Instruction:\n"",
+   ""ai_prompt"": ""\n### Response:\n""
+ }'
+```
+3. To get the model's understanding of an image use this curl:
+```
+curl http://127.0.0.1:3928/v1/chat/completions \
+  -H ""Content-Type: application/json"" \
+  -H ""Authorization: Bearer $OPENAI_API_KEY"" \
+  -d '{
+    ""model"": ""gpt-4-vision-preview"",
+    ""messages"": [
+      {
+        ""role"": ""user"",
+        ""content"": [
+          {
+            ""type"": ""text"",
+            ""text"": ""What’s in this image?""
+          },
+          {
+            ""type"": ""image_url"",
+            ""image_url"": {
+              ""url"": ""<base64>""
+            }
+          }
+        ]
+      }
+    ],
+    ""max_tokens"": 300
+  }'
+```
+Note: replace <base64> with the actual base64 of an image
+4. If the base64 string is too long and causes errors, consider using Postman as an alternative.",D
+"What is warm-up, and how to use it?","A. In machine learning, warm-up refers to a technique used to improve the performance of models during their initial stages after loading or training.","B. In the given context, 'warm-up' refers to a process that prepares a machine learning model for efficient and effective performance. It involves running inference requests through the model before it starts processing user requests. This helps in minimizing delays during the initial inferences. The command to use for warm-up is `curl http://localhost:3928/inferences/llamacpp/warmup`.","C. In the context of machine learning, 'warm-up' is a technique where a model undergoes a pre-training phase on a small subset of the dataset to improve its initial performance. To perform warm-up, use the command `curl http://localhost:3928/inferences/llamacpp/warmupmodel`.",D. The term 'warm-up' in machine learning is used to describe the initial phase of data preprocessing where the data is conditioned and normalized to enhance model training. It is executed with the command `curl http://localhost:3928/inferences/warmup`,B
+List out steps to use Nitro with PalChat,"A. 1. Install Nitro and PalChat software.
+   ```bash title=""Install Nitro and PalChat""
+   sudo apt-get install nitro palchat
+   ```
+2. Configure Nitro for PalChat
+```
+nitro --configure palchat
+```
+3. Start the Nitro server.
+```
+nitro
+```
+4. Connect PalChat to Nitro.
+```
+palchat --connect localhost
+```","B. 1. Start Nitro server
+   Open your terminal:
+```bash title=""Run Nitro""
+nitro
+```
+2. Download Model
+   Use these commands to download and save the Llama2 7B chat model:
+```bash title=""Get a model""
+mkdir model && cd model
+wget -O llama-2-7b-model.gguf https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf
+```
+3. Start Pal
+   ```bash title=""Start Pal""
+   pal start
+   ```
+4. Configure Pal with Nitro
+   ```bash title=""Configure Pal with Nitro""
+   pal config set --model-path /root/nitro/docs/docs/new/palchat.md/model/llama-2-7b-model.gguf
+   ```
+5. Start Chat
+   ```bash title=""Start Chat""
+   pal chat
+   ```
+6. Interact with PalChat
+   Type your message and press enter to get a response from the AI model.","C. 1. Start Nitro server
+   Open your terminal:
+```bash title=""Run Nitro""
+nitro
+```
+2. Download Model
+   Use these commands to download and save the Llama2 7B chat model:
+```bash title=""Get a model""
+mkdir model && cd model
+wget -O llama-2-7b-model.gguf https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf
+```
+3. Load the model
+   ```bash title=""Load model""
+   curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""model/llama-2-7b-chat.Q5_K_M.gguf"",
+    ""ctx_len"": 512,
+    ""ngl"": 100,
+  }'
+   ```
+4. Configure Pal Chat
+Adjust the provide custom host setting under advanced settings in Pal Chat with your LAN IPv4 address (a series of numbers like 192.xxx.x.xxx).
+5. Start Chat","D. 1. Start Nitro server
+   Open your terminal:
+```bash title=""Run Nitro""
+nitro --mode chat
+```
+2. Download Model
+   Use these commands to download and save the Llama2 7B chat model:
+```bash title=""Get a model""
+mkdir model && cd model
+wget -O llama-2-7b-model.gguf https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf
+```
+3. Load the model
+   ```bash title=""Load model""
+   curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""model/llama-2-7b-chat.Q5_K_M.gguf"",
+    ""ctx_len"": 512,
+    ""ngl"": 100,
+  }'
+   ```
+4. Configure Pal Chat
+Adjust the provide custom host setting under advanced settings in Pal Chat with your LAN IPv4 address (a series of numbers like 192.xxx.x.xxx).
+5. Start Chat",C
+Can I use Nitro on the browser?,"A. The context does not provide specific details about using Nitro on a browser. However, it is mentioned that Nitro has an API server which can be accessed through a web interface. This suggests that you might be able to interact with Nitro through a web browser by making requests to its API. But, the actual usage and compatibility would depend on how the API is designed and implemented in Nitro.
+I don't know if it is possible to directly use Nitro as an extension or plugin in a browser without additional setup or configuration.","B. Yes, you can use Nitro on the browser via ChatGPTBox.","C. The given context does not provide specific details about using Nitro on the browser. However, it mentions that Nitro is compatible with OpenAI models and can be used as an inference server for local AI applications. This suggests that while Nitro might not have a dedicated browser version, it can still be used in web-based applications through its compatibility with OpenAI models.","D. Yes, you can use Nitro on the browser. It is compatible with browsers and does not require any specific hardware.",B
+Teach me quickstart,"A. 1. Download and install Nitro on your system.
+2. Open the Nitro application.
+3. Follow the on-screen instructions to set up your account and preferences.
+4. Once you have completed the setup, you will be presented with the main dashboard.
+5. From here, you can access various features and functionalities of Nitro, such as creating documents, editing existing ones, or collaborating with others.
+6. If you need further assistance, refer to the Nitro documentation available on their website or contact their support team for help.",B. Nitro is a library that provides fast inference for local AI. It is designed to work with large language models and can be used as an alternative to OpenAI's API or Azure's OpenAI service. Nitro is open source and can be deployed on any server.,"C. From the given context, it can be inferred that Nitro is a library or tool related to AI functionalities. It has an architecture designed for scalability and efficiency with a modular framework. The detailed specifications of its internal workings, components, and design philosophy are available in the Architecture Specifications document.","D. 1. Install Nitro
+Download and install Nitro on your system.
+2. Downloading a Model
+```
+mkdir model && cd model
+wget -O llama-2-7b-model.gguf https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf
+```
+3. Run Nitro server
+```
+nitro
+```
+4. Load model
+```
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/model/llama-2-7b-model.gguf"",
+    ""ctx_len"": 512,
+    ""ngl"": 100,
+  }'
+```
+5. Making an Inference
+```
+curl http://localhost:3928/v1/chat/completions \
+  -H ""Content-Type: application/json"" \
+  -d '{
+    ""messages"": [
+      {
+        ""role"": ""user"",
+        ""content"": ""Who won the world series in 2020?""
+      },
+    ]
+  }'
+```",D
+What is Nitro?,"A. The benefits of using Nitro include fast inference, lightweight design, easy embeddability, quick setup, and enhanced web framework integration. However, without more detailed information, it's difficult to provide a comprehensive list of benefits.","B. Nitro is a high-efficiency C++ inference engine for edge computing, powering Jan. It is lightweight and embeddable, ideal for product integration.",C. Nitro seems to be an AI-based system designed for scalability and efficiency with a modular framework that supports diverse functionalities. It is built on top of the cutting-edge inference library `llama.cpp` and uses the web framework `drogon cpp`.,"D. Nitro is a library that allows you to interact with the OpenAI API. It provides an easy-to-use interface for making requests to the OpenAI API, which can be used for tasks such as generating text completions using the GPT-3 model.",B
+What are the main differences between Nitro and OpenAI?,"A. 1. Nitro is an open-source project while OpenAI is a private company. This means that Nitro's codebase is available for anyone to view, modify, and contribute to, whereas OpenAI keeps its code proprietary.
+2. Nitro supports multiple Open Source models in a single binary, while OpenAI primarily focuses on GPT-4 and DALL-E 3.
+2. Nitro is designed to be a high-performance inference server that can run on local hardware, making it more suitable for personal use or small teams. On the other hand, OpenAI's services are typically cloud-based and may require a subscription fee.
+4. Nitro is compatible with OpenAI's API structure, which makes it easier for users to transition from OpenAI to Nitro.","B. Nitro is compatible with OpenAI's API structure, which means it can work seamlessly with OpenAI's tools and services. It also states that Nitro runs on your local computer while OpenAI runs in the cloud, providing more control and privacy to users.",C. The given context does not provide specific details on the differences between Nitro and OpenAI.,"D. The main differences between Nitro and OpenAI lie in their functionalities and usage. While OpenAI is a cloud-based platform that provides various AI services, Nitro is designed to be an inference server for local AI. It is compatible with OpenAI's API structure and can be used as an alternative to OpenAI for local AI applications.",A
+Why do I use Nitro over Ollama?,"A. 
+1. Nitro is more lightweight compared to Ollama, with a size of only 3MB compared to Ollama's 200MB. This makes it easier to embed into subprocesses and reduces concerns about package size for your application.
+2. Nitro is designed to be efficient and resource-friendly, making it suitable for applications where efficiency and minimal resource usage are key.","B. The main reason for using Nitro over Ollama is its compatibility with OpenAI. This means that models trained on OpenAI can be easily migrated to Nitro without any significant changes. Additionally, Nitro offers a range of features such as batching and threading which can improve the efficiency and performance of AI applications.","C. 1. Size: Nitro is significantly smaller than Ollama, which makes it more suitable for applications where efficiency and minimal resource usage are key.
+2. Embeddability: Nitro's compact size allows for easy embedding into subprocesses, ensuring minimal concerns about package size for your application. This feature can be particularly useful if you want to incorporate AI capabilities into existing programs with limited resources.
+3. Versatility: Nitro is designed to work seamlessly with various AI clients and models, including the OpenAI ChatGPT API, making it a more versatile option compared to Ollama.
+4. Web Framework: Nitro uses an enhanced web framework that boosts web service efficiency, which can be advantageous for applications that require real-time communication or fast response times.
+5. Quick Setup: Nitro offers a quick setup process with approximately 10-second initialization time, making it more convenient to integrate into your application compared to Ollama.","D. The given context doesn't provide a specific reason why you would choose Nitro over Ollama. However, it mentions that Nitro has a smaller size (3MB) compared to Ollama (around 200MB), which might be one of the reasons to consider using Nitro.",C
+Tell me all the parameters I can use in loading a model.,"A. The answer is: llama_model_path, ngl, ctx_len, embedding, n_parallel, cont_batching, cpu_threads.","B. The parameters you can use in loading a model are `llama_model_path`, `ngl`, `ctx_len`,  `user_prompt`, `ai_prompt`, and `system_prompt`.
+For more detailed information, you can refer to the [Table of parameters](#table-of-parameters).","C. In loading a model, you can use the following parameters: 
+- `ctx_len`: The context length of the model. 
+- `cont_batching`: A boolean value indicating whether to use continuous batching or not. 
+- `device`: The device on which the model should be loaded. 
+- `embedding`: A boolean value indicating whether to load the embedding layer or not. 
+- `fp16`: A boolean value indicating whether to use floating point 16-bit precision or not. 
+- `model`: The path to the model file. 
+- `multithreading`: A boolean value indicating whether to use multithreading or not. 
+- `n_parallel`: The number of parallel operations to perform.","D. The following are the parameters you can use when loading a model using `loadmodel` in Nitro:
+- `llama_model_path`: The file path to the LLaMA model.
+- `ngl`: The number of GPU layers to use.
+- `ctx_len`: The context length for the model operations.
+- `embedding`: Whether to use embedding in the model.
+- `n_parallel`: The number of parallel operations.
+- `cont_batching`: Whether to use continuous batching.
+- `cpu_threads`: The number of threads for CPU inference.
+- `user_prompt`: The prompt to use for the user.
+- `ai_prompt`: The prompt to use for the AI assistant.
+- `system_prompt`: The prompt for system rules.
+For more detailed information, you can refer to the [Table of parameters](#table-of-parameters).",D
+How to use embedding?,A. The 'ai_prompt' in the Nitro library is used to define a message or instruction that guides the AI model. It is a way to direct the AI model on how to process and respond to certain inputs.,"B. 
+1. To utilize the embedding feature, include the JSON parameter `""embedding"": true` in your load model request. This action enables Nitro to process inferences with embedding capabilities.
+2. Here’s an example showing how to get the embedding result from the model:
+   ```bash title=""Nitro"" {1}
+   curl http://localhost:3928/v1/embeddings \
+       -H 'Content-Type: application/json' \
+       -d '{
+           ""input"": ""Hello"",
+           ""model"":""Llama-2-7B-Chat-GGUF"",
+           ""encoding_format"": ""float""
+       }'
+   ```","C. To utilize the embedding feature, include the JSON parameter `""embedding"": true` in your load model request.","D. The 'embedding' parameter in the Nitro library is used to enable or disable embedding features. If it is set to true, embedding features will be enabled; if it is set to false, they will be disabled.",B
+Show me a notebook to use with Google Colab,"A. To find the actual notebook, you may need to search for it within the `/root/nitro/docs` directory or check if there are any other references to the notebook in the documentation. ","B. The link provided in the context leads to a GitHub repository named 'llama-cpp'. This repository contains the source code for the LLaMA model, which is optimized for CPU and GPU. The purpose of this repository is to provide a platform where developers can collaborate on improving the LLaMA model.",C. Here is an example of a notebook that can be used with Google Colab: [Nitro on Google Colab](https://colab.research.google.com/drive/1mJKjPmPcsZKpQitqdq6qkgJUHk4V9WZN?usp=sharing). This notebook demonstrates how to use Nitro on Google Colab and using it as a server.,"D. The provided context does not contain specific details about a notebook for Google Colab. However, you can generally find such resources on the official Google Colab website or through tutorials and documentation provided by Google. The link provided in the context leads to a page titled 'Nitro on Google Colab', but without further information, it's hard to determine what this page contains.",C
+Nitro is llama-cpp-python?,"A. Nitro isn't bound to Python, which allows you to leverage high-performance software that fully utilizes your system's capabilities. With Nitro, learning how to deploy a Python web server or use FastAPI isn't necessary. The Nitro web server is already fully optimized.",B. The given context does not provide specific details about whether Nitro is llama-cpp-python or not. ,"C. Yes, that's correct. However, Nitro isn't limited to just Llama.cpp; it will soon integrate multiple other models like Whisper, Bark, and Stable Diffusion, all in a single binary. This eliminates the need for you to develop a separate API server on top of AI models. Nitro is a comprehensive solution, designed for ease of use and efficiency.","D. No, Nitro isn't simply Llama-cpp-python. Nitro also uses Drogon Cpp as its web framework, which is designed to be efficient and lightweight. This allows Nitro to have a small footprint of only 3MB, making it suitable for resource-sensitive environments.",A
+Why is the name of the model chat-gpt-3.5? I thought the name should be my local model.,"A. The name 'chat-gpt-3.5' might seem confusing at first if you're expecting it to be your local model. However, this naming convention is likely used for compatibility reasons. Many applications implement the OpenAI ChatGPT API, and Nitro wants to ensure a smooth transition for these users. If you're already using the chatgpt API, switching to Nitro is seamless. You just need to replace api.openai.com with localhost:3928 in your client settings (like Chatbox, Sillytavern, Oobaboga, etc.), and it will work smoothly with Nitro.","B. The name of the model in this case is ""chat-gpt-3.5"". This is a convention used by the Nitro project to enable easy integration with various AI clients, including those that use the OpenAI ChatGPT API. The number ""3.5"" is not meant to imply a specific version but rather serves as a placeholder or suffix for any model you might want to use with Nitro.",C. Chat-gpt-3.5' is a default alias used for local models that are derived from the OpenAI GPT-3.5 framework. This naming helps in identifying the model's origin and capabilities quickly. Users can rename their local models as needed for their specific applications or environments.,"D. The model 'chat-gpt-3.5' is named so because it represents the 3.5th iteration in the series of GPT models developed by OpenAI. Despite being a local model, it maintains the naming convention for consistency and recognition in the broader AI community.",A
+How can I contribute to Nitro?,"A. To contribute to Nitro, you need to have a certification in C++ programming. Once certified, you can apply to their developer program through their website. Upon acceptance, you'll receive access to their private repositories for development.","B. Nitro welcomes contributions in various forms, not just coding. Here are some ways you can get involved:
+- Understand Nitro: Start with the Getting Started guide. Found an issue or have a suggestion? Open an issue to let us know.
+- Feature Development: Engage with community feature requests. Bring ideas to life by opening a pull request for features that interest you.
+You can contribute to Nitro by visiting its GitHub repository at https://github.com/janhq/nitro. There, you can fork the repository and create a pull request with your changes or additions.","C. You can contribute to Nitro by visiting its GitHub repository at https://github.com/janhq/nitro. There, you can fork the repository and create a pull request with your changes or additions.","D. Nitro welcomes contributions in various forms, not just coding.",B
+Where can I find support?,"A. I don't know where to find support based on the given context information. However, you might want to check the documentation or visit the official website of the software or product mentioned in the file path. It is likely that they provide support through their website or customer service channels.","B. The provided context does not contain information on where to find support. However, typically, you would find support through the official documentation or community forums of the software. It's recommended to check the official Nitro documentation and community resources.",C. You might want to check the documentation or visit the official website of the software or product mentioned in the file path. It is likely that they provide support through their website or customer service channels.,D. You can find support for Nitro on the #nitro Discord channel. This is a community of developers who use and contribute to the Nitro library.,D
+"If I had a problem, where can I ask?",A. You can report problems to the developers of Nitro by filing an issue on their GitHub page. ,"B. If you have a problem or an issue with Nitro, the best place to report it is on its GitHub page. You can do this by visiting the following link: 'https://github.com/janhq/nitro'. On the GitHub page, you can open an issue and describe your problem in detail.
+You can find support for Nitro on the #nitro Discord channel. This is a community of developers who use and contribute to the Nitro library.","C. In the given context, there is no direct information about where to find support.",D. You could search online for Nitro support or contact their customer service team directly.,B
+Show me steps to build from source on Windows,"A. 1. Clone the Nitro repository: `git clone https://github.com/NVIDIA/nitro.git`
+2. Open a command prompt in the nitro directory: `cd nitro`
+3. Generate the build files: `mkdir build && cd build; cmake ..`
+4. Build Nitro: `cmake --build .` or `ninja`
+5. Start Nitro: `cd Release; copy ..\..\build_deps\_install\bin\zlib.dll .; nitro.exe`
+6. Verify if the build was successful by running `curl http://localhost:3928/healthz` in a web browser or command prompt","B. To build Nitro from source on Windows, you need to follow these steps:
+
+1. Download and install the latest version of [Visual Studio](https://visualstudio.microsoft.com/downloads/) (Community Edition is sufficient).
+2. Clone the Nitro repository using Git:
+```bash
+git clone https://github.com/janhq/nitro.git
+```
+3. Open the 'nitro' directory in Visual Studio.
+4. In Visual Studio, go to Build -> Configuration Manager.
+5. Select 'Release' from the dropdown menu and click 'OK'.
+6. Go back to Visual Studio and select 'Build Solution'.
+7. The Nitro library will now be built.","C. 1. Clone the Repository
+```
+git clone --recurse https://github.com/janhq/nitro
+```
+2. Install Dependencies
+```
+cmake -S ./nitro_deps -B ./build_deps/nitro_deps
+cmake --build ./build_deps/nitro_deps --config Release
+```
+3. Generate build file
+```
+mkdir build && cd build
+cmake ..
+```
+4. Build the Application
+```
+make -j $(%NUMBER_OF_PROCESSORS%)
+```
+5. Start process
+```
+cd Release
+copy ..\..\build_deps\_install\bin\zlib.dll .
+nitro.exe
+```","D. 1. Install Git (if you don't have it already) - https://git-scm.com/downloads
+2. Clone the Nitro repository: `git clone https://github.com/Llamasoft-COIN/Nitro.git`
+3. Open a command prompt in the directory of the cloned repository: `cd Nitro`
+4. Generate the build files: `mkdir build && cd build; cmake ..`
+5. Build Nitro: `cmake --build . --config Release`
+6. Copy the zlib.dll to the Release folder: `copy ../build_deps/_install/bin/zlib.dll .`
+7. Start Nitro: `cd Release; nitro.exe`
+8. Verify if the build was successful by running: `curl http://localhost:3928/healthz`",C
+I want to install Nitro on MacOS,"A. For lastest version (CPU is default):
+```
+curl -sfL https://raw.githubusercontent.com/janhq/nitro/main/install.sh | sudo /bin/bash -
+```
+
+GPU Version Installation:
+```
+curl -sfL https://raw.githubusercontent.com/janhq/nitro/main/install.sh -o /tmp/install.sh && chmod +x /tmp/install.sh && sudo bash /tmp/install.sh --gpu && rm /tmp/install.sh
+```
+
+Or download the latest version of Nitro from its official website.","B. 1. Clone the repo from https://github.com/NitroKey/nitro.git
+2. Go to the nitro folder using terminal
+3. Run `./install_deps.sh` to install dependencies
+4. After the installation, run `./nitro` to start Nitro
+5. To verify if the build was successful, run `curl http://localhost:3928/healthz` in a new terminal window.
+If you encounter any issues, please refer to the documentation for detailed instructions or reach out to the NitroKey support team for assistance.",C. Clone the Nitro repository: `git clone --recurse https://github.com/janhq/nitro`,"D. To build Nitro from source on Windows, you need to follow these steps:
+
+1. Download and install the latest version of [Visual Studio](https://visualstudio.microsoft.com/downloads/) (Community Edition is sufficient).
+2. Clone the Nitro repository using Git:
+```bash
+git clone https://github.com/janhq/nitro.git
+```
+3. Open the 'nitro' directory in Visual Studio.
+4. In Visual Studio, go to Build -> Configuration Manager.
+5. Select 'Release' from the dropdown menu and click 'OK'.
+6. Go back to Visual Studio and select 'Build Solution'.
+7. The Nitro library will now be built.",A
+What is a system prompt?,A. A system prompt sets up the behavior of the assistant. It provides instructions or guidelines on how to respond or interact in a specific scenario.,B. A system prompt is a command or instruction that guides the assistant's behavior in the conversation. It sets up the assistant's responses based on the given instructions.,"C. A system prompt is a command or instruction that sets up the assistant's behavior. It can be used to define how the assistant should respond or act in certain situations. For example, you could use a pre_prompt to set an initial message for the assistant to display before it starts interacting with the user.
+
+The system prompt is defined in the context information as:
+- **Definition**: Sets up the assistant's behavior.
+- **Example**: `system_prompt: ""You are a Pirate""`","D. A system prompt is a command or instruction that sets up the assistant's behavior. It can be used to define how the assistant should respond or act in certain situations. For example, you could use a pre_prompt to set an initial message for the assistant to display before it starts interacting with the user.
+
+The system prompt is defined in the context information as:
+- **Definition**: Sets up the assistant's behavior.
+- **Example**: `pre_prompt: ""You are a Pirate""`",D
+How to use pre prompt?,"A. ```
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""ctx_len"": 128,
+    ""ngl"": 100,
+    ""pre_prompt"": ""You are a Pirate. Using drunk language with a lot of Arr..."",
+    ""system_prompt"": ""ASSISTANT'S RULE: "",
+    ""user_prompt"": ""USER:"",
+    ""ai_prompt"": ""ASSISTANT: ""
+  }'
+```",B. pre_prompt' is used to set up the assistant's behavior. It is configured with the statement 'You are a Pirate'. This means that the assistant will behave as if it is a pirate,"C. 
+
+To use the pre prompt, you need to define it in your code. Here is an example:
+
+```python
+pre_prompt = ""You are a Pirate""
+```
+
+In this example, 'You are a Pirate' is the pre prompt that sets up the assistant's behavior.<|im_end|>","D. 
+
+In the given example, the ""pre_prompt"" is used to set up the assistant's behavior by providing a statement that the AI should consider while answering questions or generating responses. In this case, it sets up the assistant as a Pirate. You can customize this prompt based on your specific use case and model requirements.
+
+To use ""pre_prompt"", you would need to configure it in your code or model setup. The exact implementation depends on the framework or platform you are using. Here's an example of how you might use it with OpenAI's GPT-3 API:
+
+```python
+import openai
+
+openai.api_key = ""YOUR_API_KEY""
+
+completion = openai.Completion.create(
+    engine=""davinci"",
+    prompt=f""pre_prompt: You are a Pirate\n{user_input}"",
+    max_tokens=100,
+)
+```
+
+In this example, the `user_input` is the question or statement that you want the AI to respond to. The ""pre_prompt"" statement is included in the prompt provided to the GPT-3 model. The model will generate a response based on the combined prompt and its own knowledge.",A
+I want to enable multi-thread,"A. To enable multi-threading in Nitro, you need to set the `threads` parameter to a value greater than 1 when initializing the library. Here's an example:
+```python
+import nitro
+
+nitro.init(threads=4)
+```
+In this example, the `threads` parameter is set to 4, which means Nitro will use four threads for processing requests.","B. 1. Firstly, you need to understand that Nitro is a server application for machine learning model deployment and inference. It supports multithreading, which means it can handle multiple requests concurrently using different threads to improve performance.
+2. To enable multi-threading on Nitro, you should follow the command syntax given in the context information:
+```bash title=""Nitro deploy server format""
+nitro [thread_num] [host] [port]
+```
+3. Replace `[thread_num]` with the number of threads that you want to use. The higher the thread count, the more requests Nitro can handle simultaneously but be aware that it may also increase resource usage and CPU load.
+4. Set `[host]` as the host address. It is usually `127.0.0.1` (localhost) or `0.0.0.0` (all interfaces).
+5. Specify the `[port]` number where Nitro should be deployed.
+6. For example, to launch Nitro with 4 threads, you can use this command:
+```bash title=""Example""
+nitro 4 127.0.0.1 5000
+```
+Remember that after enabling multithreading, you should monitor the system's performance and adjust `thread_num` as needed to optimize throughput and latency based on your workload.","C. To enable multi-threading in your Nitro library, you need to use the `thread_num` parameter. This parameter specifies the number of threads that you want to use for execution. By setting this parameter to a value greater than 1, you are enabling multi-threading.","D. Multi-threading in Nitro is automatically managed by the system based on the workload. You do not need to manually set the number of threads, as Nitro dynamically adjusts them for optimal performance.",B
+How do I know if the model load is successful or not?,"A. 
+To check whether the model load is successful or not, you can use the `curl` command provided in the context information:
+
+```bash title=""Check Model Status"" {1}
+curl http://localhost:3928/inferences/llamacpp/modelstatus
+```
+
+If the model is loaded successfully, the response will be:
+
+```js title=""Load Model Sucessfully""
+{""message"":""Model loaded successfully"", ""code"": ""ModelloadedSuccessfully""}
+```
+
+In case of an error while loading models or if no model is loaded, the response will be:
+
+```js title=""Load Model Failed""
+{""message"":""No model loaded"", ""code"": ""NoModelLoaded""}
+```
+
+So, by checking the response message, you can determine whether the model load was successful or not.","B. You can check if the model load is successful or not by checking the `status` of the `embedding` object. If the status is 'success', then the model load was successful.","C. 
+To check whether the model load is successful or not, you can use the `curl` command provided in the context information:
+
+```bash title=""Check Model Status"" {1}
+curl http://localhost:3928/inferences/llamacpp/model/status
+```
+
+If the model is loaded successfully, the response will be:
+
+```js title=""Load Model Sucessfully""
+{""message"":""Model loaded successfully"", ""code"": ""ModelloadedSuccessfully""}
+```
+
+In case of an error while loading models or if no model is loaded, the response will be:
+
+```js title=""Load Model Failed""
+{""message"":""No model loaded"", ""code"": ""NoModelLoaded""}
+```
+
+So, by checking the response message, you can determine whether the model load was successful or not.","D. You can check if the model load is successful or not by checking the `status` of the `model` object. If the status is 'success', then the model load was successful.",A
+How to unload a model?,"A. To unload a model, you can use a similar `curl` command as loading the model, adjusting the endpoint to `/unload/model`.
+```bash title=""Unload the model"" {1}
+curl http://localhost:3928/inferences/llamacpp/unload/model
+```","B. To unload a model, you can use a similar `curl` command as loading the model, adjusting the endpoint to `/unloadmodel`.
+```bash title=""Unload the model"" {1}
+curl http://localhost:3928/inferences/llamacpp/unloadmodel
+```","C. To unload a model, you can use a similar `curl` command as loading the model, adjusting the endpoint to `/loadmodel`.
+```bash title=""Unload the model"" {1}
+curl http://localhost:3928/inferences/llamacpp/loadmodel
+```",D. curl http://localhost:3928/inferences/llamacpp/unload,B
+What is continuous batching?,"A. Continuous batching in Nitro is a method where requests are processed on a first-come, first-served basis without any delays. This approach ensures that each request is handled immediately as it arrives, maximizing real-time processing efficiency.
+To enable continuous batching, you need to set `cont_batching` to true when loading the model using Nitro's API. Additionally, it is recommended to set `n_parallel` to match the `thread_num`, as detailed in the Multithreading documentation for optimal performance.
+
+Here is an example of how to enable continuous batching:
+```bash title=""Enable Batching"" {6,7}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""ctx_len"": 512,
+    ""cont_batching"": true,
+    ""n_parallel"": 4,
+  }'
+```","B. Continuous batching in Nitro is the process of automatically updating and deploying model changes without server downtime. This feature ensures that the model is always up-to-date with the latest changes, making it highly responsive to new data inputs.
+
+To enable continuous batching, you need to set `cont_batching` to true when loading the model using Nitro's API. Additionally, it is recommended to set `n_parallel` to match the `thread_num`, as detailed in the Multithreading documentation for optimal performance.
+
+Here is an example of how to enable continuous batching:
+```bash title=""Enable Batching"" {6,7}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""ctx_len"": 512,
+    ""cont_batching"": true,
+    ""n_parallel"": 4,
+  }'
+```","C. Continuous batching refers to a technique in Nitro where the system continuously monitors and optimizes the allocation of resources like memory and CPU usage. This approach helps in maintaining the balance between performance and resource consumption.
+
+To enable continuous batching, you need to set `cont_batching` to true when loading the model using Nitro's API. Additionally, it is recommended to set `n_parallel` to match the `thread_num`, as detailed in the Multithreading documentation for optimal performance.
+
+Here is an example of how to enable continuous batching:
+```bash title=""Enable Batching"" {6,7}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""ctx_len"": 512,
+    ""cont_batching"": true,
+    ""n_parallel"": 4,
+  }'
+```","D. 
+Continuous batching is a feature in Nitro that allows multiple requests for the same model execution to be combined into one batch, enhancing throughput and efficiency. This process involves grouping several tasks together and processing them as a single unit, which can lead to quicker response times and higher computational efficiency.
+
+To enable continuous batching, you need to set `cont_batching` to true when loading the model using Nitro's API. Additionally, it is recommended to set `n_parallel` to match the `thread_num`, as detailed in the Multithreading documentation for optimal performance.
+
+Here is an example of how to enable continuous batching:
+```bash title=""Enable Batching"" {6,7}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""ctx_len"": 512,
+    ""cont_batching"": true,
+    ""n_parallel"": 4,
+  }'
+```",D
+What is the benefit of using Nitro?,"A. Nitro offers a comprehensive suite of machine learning algorithms that cater to a wide range of data analytics needs, from predictive modeling to natural language processing.","B. The main benefit of using Nitro is its compatibility with OpenAI. This means that it can work seamlessly with models and tools developed by OpenAI, making it a versatile tool for AI applications.","C. 
+- Fast Inference: Built on top of the cutting-edge inference library `llama.cpp`, modified to be production ready.
+- Lightweight: Only 3MB, ideal for resource-sensitive environments.
+- Easily Embeddable: Simple integration into existing applications, offering flexibility.
+- Quick Setup: Approximately 10-second initialization.
+- Enhanced Web Framework: Incorporates `drogon cpp` to boost web service efficiency.","D. The primary advantage of using Nitro is its seamless integration with cloud services, allowing for easy scaling and management of large-scale data processing and storage.",C
+What are the requirements to install Nitro on Linux?,"A. To install Nitro on Linux, you need the following prerequisites:
+- jq (a lightweight and flexible command-line JSON processor)
+- curl (a tool for transferring data with URLs)
+- sudo (a program for executing commands as another user)
+
+If any of these packages are not available, the script will suggest installation commands. Additionally, Nitro supports GPU on Linux and Windows only, and nvidia-cuda-toolkits-12.x is required on both platforms.
+
+For detailed instructions on installing Nitro on Linux, refer to the Linux and MacOS Installation Guide.","B. To install Nitro on Linux, you need root privileges. This is because the installation process involves copying files to system directories and creating system services, which require administrative permissions.","C. On Linux, you need `jq`, `curl` and `sudo`. If `sudo` is not available, you must have passwordless sudo privileges. If `jq` or `curl` are not available, the script will attempt to suggest installation commands for these packages.","D. The user should follow the instructions in the ""Linux and MacOS Installation Guide"" provided in the context information.",A
+How do I make an inference?,"A. To make an inference, you need to use the 'curl' command to send a POST request to the 'inferences/llamacpp/loadmodel' endpoint of your Nitro server. In this request, you should include the path to the model file and the context length","B. 1. For text-based inferences, use the following command:
+```bash title=""Nitro Inference""
+curl http://localhost:3928/v1/chat/completions \
+  -H ""Content-Type: application/json"" \
+  -d '{
+    ""messages"": [
+      {
+        ""role"": ""user"",
+        ""content"": ""Who won the world series in 2020?""
+      },
+    ]
+  }'
+```
+2. For image-based inferences, use the following command:
+```bash title=""Inference""
+curl http://127.0.0.1:3928/v1/chat/completions \
+  -H ""Content-Type: application/json"" \
+  -H ""Authorization: Bearer $OPENAI_API_KEY"" \
+  -d '{
+    ""model"": ""gpt-4-vision-preview"",
+    ""messages"": [
+      {
+        ""role"": ""user"",
+        ""content"": [
+          {
+            ""type"": ""text"",
+            ""text"": ""What’s in this image?""
+          },
+          {
+            ""type"": ""image_url"",
+            ""image_url"": {
+              ""url"": ""<base64>""
+            }
+          }
+        ]
+      }
+    ],
+    ""max_tokens"": 300
+  }'
+```","C. To make an inference, you need to send a request to the Nitro server. The request should be sent to the URL 'http://localhost:3928/v1/chat' using the curl command.","D. For image-based inferences, use the following command:
+```bash title=""Inference""
+curl http://127.0.0.1:3928/v1/image/completions \
+  -H ""Content-Type: application/json"" \
+  -H ""Authorization: Bearer $OPENAI_API_KEY"" \
+  -d '{
+    ""model"": ""gpt-4-vision-preview"",
+    ""messages"": [
+      {
+        ""role"": ""user"",
+        ""content"": [
+          {
+            ""type"": ""text"",
+            ""text"": ""What’s in this image?""
+          },
+          {
+            ""type"": ""image_url"",
+            ""image_url"": {
+              ""url"": """"
+            }
+          }
+        ]
+      }
+    ],
+    ""max_tokens"": 300
+  }'
+```",B
+I want to download a model; how can I do it?,"A. 
+
+For this example, we'll use the Llama2 7B chat model.
+
+```bash
+mkdir model && cd model
+wget -O llama-2-7b-model.gguf https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.safetensor
+```
+
+This command will create a directory named 'model', change the current working directory to it, and then download the Llama2 7B chat model from Hugging Face using wget. The model file will be saved as 'llama-2-7b-chat.Q5_K_M.safetensor'.
+
+If you want to download a different model, replace the URL in the wget command with the appropriate one for your desired model.
+
+You can find more model in Huggingface.","B. You can download a model using the `wget` command in Linux and macOS, or the `Invoke-WebRequest` cmdlet in Windows PowerShell. Here is an example of how to download a model named 'testmodel' from the URL 'https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf?download=true':
+```bash
+# Download the model in Linux and macOS
+wget -O /tmp/testmodel https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf?download=true
+
+# Download the model in Windows PowerShell
+Invoke-WebRequest -Uri 'https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf?download=true' -OutFile 'C:\tmp\testmodel'
+```","C. 
+
+For this example, we'll use the Llama2 7B chat model.
+
+```bash
+mkdir model && cd model
+wget -O llama-2-7b-model.gguf https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf
+```
+
+This command will create a directory named 'model', change the current working directory to it, and then download the Llama2 7B chat model from Hugging Face using wget. The model file will be saved as 'llama-2-7b-chat.Q5_K_M.gguf'.
+
+If you want to download a different model, replace the URL in the wget command with the appropriate one for your desired model.
+
+You can find more model in Huggingface.","D. You can download a model by sending an HTTP request to the Nitro server. Here is an example of how you can download the Llama2 7B chat model:
+```bash
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+-H 'Content-Type: application/json' \
+-d '{
+""llama_model_path"": ""/tmp/testmodel"",
+""ctx_len"": 512,
+""ngl"": 3072,
+""embedding_dim"": 512,
+""n_parallel"": 4,
+""n_gpu"": 1,
+""n_cpu"": 8,
+""seed"": 0,
+}'
+```
+This command sends a POST request to the specified URL with a JSON payload that includes the path to the model and other parameters.",C
+Tell me the body schema of the Chat Completion API,A. The body schema of the Chat Completion API is defined in a JSON format. It specifies that the content type of the request should be 'application/json' and it references to a schema named 'ChatCompletionRequest'. This schema contains details about the data structure of the request,"B. The body schema of the Chat Completion API response is an object that contains a 'choices' array. Each choice in this array represents a possible completion for the chat message. A choice object has properties like 'index', 'message', 'finish_reason', etc. The 'message' property contains the actual text of the completion.","C. The body schema of the Chat Completion API is defined in the 'schema' field of the JSON data sent in the request. In this case, it refers to the '#/components/schemas/ChatCompletionRequest' component. This means that the structure and requirements for the body of the request are specified in the 'ChatCompletionRequest' schema.","D. ```json
+{
+  ""messages"": [
+    {
+      ""content"": ""Hello there :wave:"",
+      ""role"": ""assistant""
+    },
+    {
+      ""content"": ""Can you write a long story"",
+      ""role"": ""user""
+    }
+  ],
+  ""stream"": true,
+  ""model"": ""gpt-3.5-turbo"",
+  ""max_tokens"": 2048,
+  ""stop"": [
+    ""hello""
+  ],
+  ""frequency_penalty"": 0,
+  ""presence_penalty"": 0,
+  ""temperature"": 0.7,
+  ""top_p"": 0.95
+}
+```",D
+How do I configure it in Pal Chat?,"A. 1. Open Pal Chat application.
+2. Go to Settings > Advanced settings.
+3. Under ""Provide custom host"", enter your LAN IPv4 address (a series of numbers like 192.xxx.x.xxx).
+4. Save the changes.
+5. Now, you can start chatting with the model using Pal Chat.","B. To configure the Nitro library in Pal Chat, you need to replace 'api.openai.com' with 'localhost:3928' in your client settings. This will allow Pal Chat to work seamlessly with the Nitro library.","C. The exact steps to configure Nitro in Pal Chat may vary depending on the specific version and setup of both Nitro and Pal Chat. However, generally, you would need to access the settings or preferences for the chat functionality in Pal Chat, find the section where you can specify the AI model to use for chat completion, and enter the path to the `model` directory of your local Nitro installation.","D. In Pal Chat, navigate to the `OpenAI API Key` field and type any random text (e.g., key-xxxxxx).",A
+What is Jan?,A. ,"B. Jan is a ChatGPT-alternative that runs on your own computer, with a local API server. It uses open-source AI models, stores data in open file formats, and is highly customizable via extensions. For additional details, please consult the Jan Documentation.","C. Jan is a lightweight, cross-platform desktop application for personal information management. It includes features like calendar, to-do list, notes, and reminders, all synchronized across devices for user convenience.","D. Jan is a high-performance, distributed database system known for its robust scalability and reliability in handling large-scale data. It is widely used in enterprise-level applications requiring complex data management.",B
+"I want to make a dialog with Nitro, how to do it?","A. To make a dialog with Nitro, you need to send a POST request to the server. The request should contain an array of messages, where each message is an object with 'role' and 'content'. The 'role' can be either 'user' or 'assistant', and 'content' is the actual content of the message. Here's an example:
+```bash
+curl http://localhost:3928/v1/chat/completions \
+-H ""Content-Type: application/json"" \
+-d '{
+""messages"": [
+{
+""role"": ""user"",
+""content"": ""Who won the world series in 2020?""
+},
+]
+}'
+```","B. For ongoing conversations or multiple queries, the dialog request feature is ideal. Here’s how to structure a multi-turn conversation:
+```
+curl http://localhost:3928/v1/chat/completions \
+  -H ""Content-Type: application/json"" \
+  -d '{
+    ""messages"": [
+      {
+        ""role"": ""system"",
+        ""content"": ""You are a helpful assistant.""
+      },
+      {
+        ""role"": ""user"",
+        ""content"": ""Who won the world series in 2020?""
+      },
+      {
+        ""role"": ""assistant"",
+        ""content"": ""The Los Angeles Dodgers won the World Series in 2020.""
+      },
+      {
+        ""role"": ""user"",
+        ""content"": ""Where was it played?""
+      }
+    ]
+  }'
+```","C. ""For ongoing conversations or multiple queries, the dialog request feature is ideal. Here’s how to structure a multi-turn conversation:
+```
+curl http://localhost:3928/v1/dialog/completions \
+  -H """"Content-Type: application/json"""" \
+  -d '{
+    """"messages"""": [
+      {
+        """"role"""": """"system"""",
+        """"content"""": """"You are a helpful assistant.""""
+      },
+      {
+        """"role"""": """"user"""",
+        """"content"""": """"Who won the world series in 2020?""""
+      },
+      {
+        """"role"""": """"assistant"""",
+        """"content"""": """"The Los Angeles Dodgers won the World Series in 2020.""""
+      },
+      {
+        """"role"""": """"user"""",
+        """"content"""": """"Where was it played?""""
+      }
+    ]
+  }'
+```""","D. 1. Press Ctrl+B on any page to activate the chat dialog box.
+2. If you want to open an independent conversation page, press Ctrl+Shift+H.
+3. To summarize any page via the right-click menu, use Alt+B.",B
+Tell me all the integration Nitro have,"A. Nitro has integrations with various platforms to enhance its functionality and usability. These include: 
+1. OpenAI: Nitro is compatible with OpenAI, allowing it to work seamlessly with OpenAI's models and standards","B. I don't know about the specific integrations that Nitro has. However, I can provide you with the installation guide for Nitro which might give you some insights into its capabilities and potential integrations. The file path provided in the context information leads to a quickstart guide and an installation guide. You may want to check out the installation guide to learn more about Nitro's features and possible integrations.","C. Nitro has integrations with various platforms to enhance its functionality and usability. These include:
+1. Jan
+2. Pal Chat
+3. OpenAI-node
+4. OpenAI-python
+5. Google Colab
+6. browser","D. Nitro is integrated with Jan. This means that it can work seamlessly with Jan, a platform or tool.",C
+Show me the way to load the model,"A. 
+
+You can load the llm model using:
+
+```bash title=""Load Model"" {1}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""ctx_len"": 512,
+  }'
+```
+
+For more detail on the loading model, please refer to [Table of parameters].(#table-of-parameters).
+
+You can load vison model using:
+```bash title=""Load Model"" {3,4}
+curl -X POST 'http://127.0.0.1:3928/inferences/llamacpp/loadmodel' -H 'Content-Type: application/json' -d '{
+   ""llama_model_path"": ""/path/to/gguf/model/"",
+   ""mmproj"": ""/path/to/mmproj/model/"",
+   ""ctx_len"": 2048,
+   ""ngl"": 100,
+   ""cont_batching"": false,
+   ""embedding"": false,
+   ""system_prompt"": """",
+   ""user_prompt"": ""\n### Instruction:\n"",
+   ""ai_prompt"": ""\n### Response:\n""
+ }'
+```","B. To load a model into the Nitro server, you can use the `curl` command with the `loadmodel` API. Here is an example:
+```bash
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+-H 'Content-Type: application/json' \
+-d '{
+""llama_model_path"": ""/path/to/your_model.gguf"",
+""ctx_len"": 512,
+""ngl"": 0,
+""use_fp16"": true
+}'
+```
+In this command, replace `/path/to/your_model.gguf` with the actual path to your model file.","C. To load a vision model in Nitro library, you need to use the `curl` command. The command is as follows: 
+```bash
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+-H 'Content-Type: application/json' \
+-d '{
+""llama_model_path"": ""/path/to/your_model.gguf"",
+""ctx_len"": 512,
+""ngl"": 100,
+}'
+```","D. To load the llm model, you need to use curl command in your terminal. Here is how you do it:
+```bash title=""Load Model"" {3,4}
+curl -X POST 'http://127.0.0.1:3928/inferences/llamacpp/loadmodel' -H 'Content-Type: application/json' -d '{
+   ""llama_model_path"": ""/path/to/gguf/model/"",
+   ""mmproj"": ""/path/to/mmproj/model/"",
+   ""ctx_len"": 2048,
+   ""ngl"": 100,
+   ""cont_batching"": false,
+   ""embedding"": false,
+   ""system_prompt"": """",
+   ""user_prompt"": ""\n### Instruction:\n"",
+   ""ai_prompt"": ""\n### Response:\n""
+ }'
+```",A
+How to do model health check in Nitro?,"A. In the given context, a 'health check' refers to a feature or functionality provided by Nitro that allows users to monitor the status of their model.",B. The Nitro server's health is being checked by sending an HTTP GET request to `http://localhost:3928/healthz`. The response status code of 200 indicates that the Nitro server is healthy and running as expected.,C. The results of a health check are often used to identify issues and take corrective action before they impact users or operations.,"D. The YAML file describes the structure of the request and response for this health check endpoint. It specifies that the request body should be in JSON format, with a schema defined for the HealthcheckRequest object. The response body also has a schema defined for the HealthcheckResponse object. However, since this is a GET request, there is no request body.",B
+How to run Nitro server?,"A. 1. Download and install Nitro on your system.
+2. After installation, launch Nitro by typing `nitro` (or `nitro.exe` on Windows) in a new terminal or PowerShell window. This will start the Nitro server.
+3. In a new terminal or PowerShell session, run the following command:
+   - **On Linux and MacOS:**
+     ```bash title=""Linux and Macos""
+     # Download tiny model
+     DOWNLOAD_URL=https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v0.3-GGUF/resolve/main/tinyllama-1.1b-chat-v0.3.Q2_K.gguf
+     # Check if /tmp/testmodel exists, if not, download it
+     if [[ ! -f ""/tmp/testmodel"" ]]; then
+       wget $DOWNLOAD_URL -O /tmp/testmodel
+     fi
+     ```
+   - **On Windows:**
+     ```powershell title=""Windows""
+     # Download tiny model
+     $DOWNLOAD_URL = ""https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v0.3-GGUF/resolve/main/tinyllama-1.1b-chat-v0.3.Q2_K.gguf""
+     # Check if C:\tmp\testmodel exists, if not, download it
+     if ((Get-Item -Path ""C:\tmp\testmodel"" -EA 0) -eq $null) {
+       Invoke-WebRequest -Uri $DOWNLOAD_URL -OutFile ""C:\tmp\testmodel""
+     }
+     ```
+   The above commands will download a tiny model and check if the file exists. If it doesn't exist, it will download it. After that, you can use Nitro to interact with the model.","B. 1. Ensure Python 3.8 or higher is installed on your system.
+2. Install Nitro using pip: `pip install nitro-server`
+3. Start the Nitro server by entering `nitro-server start` in your command line.
+4. To verify the server is running, navigate to `http://localhost:5000` in your web browser.","C. 1. First, install Docker on your system.
+2. Pull the Nitro Docker image using `docker pull nitro-server`.
+3. Run the Nitro server by executing `docker run -p 8000:8000 nitro-server`.
+4. Access the server through `http://localhost:8000`.","D. 1. Download the Nitro server package from the official website.
+2. Unzip the package and navigate to the extracted folder.
+3. Run the `setup.sh` script (Linux/MacOS) or `setup.bat` (Windows) to install Nitro.
+4. Start the server by executing `./nitro start` in the terminal.",A
+Show me the curl to run the vision model,"A. 
+
+To use the vision feature in Nitro, you need to load the model first. Here's how you can do it using `curl`:
+
+```bash title=""Load Model"" {3,4}
+curl -X POST 'http://127.0.0.1:3928/inferences/llamacpp/loadmodel' -H 'Content-Type: application/json' -d '{
+   ""llama_model_path"": ""/path/to/gguf/model/"",
+   ""mmproj"": ""/path/to/mmproj/model/"",
+   ""ctx_len"": 2048,
+   ""ngl"": 100,
+   ""cont_batching"": false,
+   ""embedding"": false,
+   ""system_prompt"": """",
+   ""user_prompt"": ""\n### Instruction:\n"",
+   ""ai_prompt"": ""\n### Response:\n""
+ }'
+```
+
+After loading the model, you can perform inference using `curl`. Here's an example:
+
+```bash title=""Inference""
+curl http://127.0.0.1:3928/v1/chat/completions \
+  -H ""Content-Type: application/json"" \
+  -H ""Authorization: Bearer $OPENAI_API_KEY"" \
+  -d '{
+    ""model"": ""gpt-4-vision-preview"",
+    ""messages"": [
+      {
+        ""role"": ""user"",
+        ""content"": [
+          {
+            ""type"": ""text"",
+            ""text"": ""What’s in this image?""
+          },
+          {
+            ""type"": ""image_url"",
+            ""image_url"": {
+              ""url"": ""<any_images_type>""
+            }
+          }
+        ]
+      }
+    ],
+    ""max_tokens"": 300
+  }'
+```","B. ""
+
+To use the vision feature in Nitro, you need to load the model first. Here's how you can do it using `curl`:
+
+```bash title=""""Load Model"""" {3,4}
+curl -X POST 'http://127.0.0.1:3928/inferences/llamacpp/loadmodel' -H 'Content-Type: application/json' -d '{
+   """"llama_model_path"""": """"/path/to/gguf/model/"""",
+   """"mmproj"""": """"/path/to/mmproj/model/"""",
+   """"ctx_len"""": 2048,
+   """"ngl"""": 100,
+   """"cont_batching"""": false,
+   """"embedding"""": false,
+   """"system_prompt"""": """""""",
+   """"user_prompt"""": """"\n### Instruction:\n"""",
+   """"ai_prompt"""": """"\n### Response:\n""""
+ }'
+```
+
+After loading the model, you can perform inference using `curl`. Here's an example:
+
+```bash title=""""Inference""""
+curl http://127.0.0.1:3928/v1/vision/classify \
+  -H """"Content-Type: application/json"""" \
+  -H """"Authorization: Bearer $OPENAI_API_KEY"""" \
+  -d '{
+    """"model"""": """"gpt-4-vision-preview"""",
+    """"messages"""": [
+      {
+        """"role"""": """"user"""",
+        """"content"""": [
+          {
+            """"type"""": """"text"""",
+            """"text"""": """"What’s in this image?""""
+          },
+          {
+            """"type"""": """"image_url"""",
+            """"image_url"""": {
+              """"url"""": """"<any_images_type>""""
+            }
+          }
+        ]
+      }
+    ],
+    """"max_tokens"""": 300
+  }'
+```""","C. 
+
+To use the vision feature in Nitro, you need to load the model first. Here's how you can do it using `curl`:
+
+```bash title=""Load Model"" {3,4}
+curl -X POST 'http://127.0.0.1:3928/inferences/llamacpp/loadmodel' -H 'Content-Type: application/json' -d '{
+   ""llama_model_path"": ""/path/to/gguf/model/"",
+   ""mmproj"": ""/path/to/mmproj/model/"",
+   ""ctx_len"": 2048,
+   ""ngl"": 100,
+   ""cont_batching"": false,
+   ""embedding"": false,
+   ""system_prompt"": """",
+   ""user_prompt"": ""\n### Instruction:\n"",
+   ""ai_prompt"": ""\n### Response:\n""
+ }'
+```
+
+After loading the model, you can perform inference using `curl`. Here's an example:
+
+```bash title=""Inference""
+curl http://127.0.0.1:3928/v1/chat/completions \
+  -H ""Content-Type: application/json"" \
+  -H ""Authorization: Bearer $OPENAI_API_KEY"" \
+  -d '{
+    ""model"": ""gpt-4-vision-preview"",
+    ""messages"": [
+      {
+        ""role"": ""user"",
+        ""content"": [
+          {
+            ""type"": ""text"",
+            ""text"": ""What’s in this image?""
+          },
+          {
+            ""type"": ""image_url"",
+            ""image_url"": {
+              ""url"": ""<BASE64_ENCODED_IMAGE>""
+            }
+          }
+        ]
+      }
+    ],
+    ""max_tokens"": 300
+  }'
+```
+
+Replace `<BASE64_ENCODED_IMAGE>` with the base64-encoded image you want to analyze. If the base64 string is too long and causes errors, consider using Postman as an alternative.","D. 
+```bash title=""Run Vision Feature"" {3,4}
+curl http://localhost:3928/v1/chat/completions \
+-H 'Content-Type: application/json' \
+-d '{
+""model"": ""gpt-4-vision-preview"",
+""messages"": [
+{
+""role"": ""user"",
+""content"": [
+{
+""type"": ""text"",
+""text"": ""What’s in this image?""
+},
+{
+""type"": ""image_url"",
+""image_url"": {
+""url"": ""https://raw.githubusercontent.com/janhq/nitro/main/assets/logo.png""
+}
+}
+]
+}
+],
+""max_tokens"": 300
+}'
+```
+This curl command is used to run the vision feature of Nitro library.",C
+Where can I find more GGUF models?,A. You can find more GGUF models at the following link: https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q5_K_M.gguf,B. I don't know,C. https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF,D. You may be able to find more models on the Hugging Face Model Hub (https://huggingface.co/models). You can search for GGUF models or filter by model type to find suitable options.,D
+I want to use Nitro with openai python. Show me the code,"A. 
+
+To use Nitro with OpenAI Python, you need to install the `openai` package using pip. Here's how you can do it:
+
+```bash title=""Install OpenAI""
+pip install openai
+```
+
+Then, you can use the following code as an example:
+
+```python
+import asyncio
+from openai import AsyncOpenAI
+
+async def generate_text(prompt):
+    async with AsyncOpenAI() as openai:
+        response = await openai.Completion.create(
+            engine=""davinci"",
+            prompt=prompt,
+            max_tokens=100,
+            n=1,
+            stop=None,
+            temperature=0.5,
+        )
+    return response.choices[0].text
+
+if __name__ == ""__main__"":
+    prompt = ""Write a poem about Nitro""
+    result = asyncio.run(generate_text(prompt))
+    print(result)
+```
+
+This code uses the `AsyncOpenAI` class from the OpenAI Python package to interact with the OpenAI API asynchronously. The `generate_text()` function takes a prompt as input and returns the generated text using the Davinci engine. You can modify this code according to your needs.","B. To use Nitro with OpenAI Python, you need to override the `baseURL` in `openai` init with the Nitro URL. Here's an example:
+```python
+import openai
+
+openai.api_key = 'sk-xxx'  # Replace with your API key
+openai.base_url = 'http://localhost:3928/v1/'  # Replace with Nitro URL","C. To use Nitro with OpenAI Python, you need to replace `baseURL` in your OpenAI client initialization with the Nitro URL.","D. 
+
+To use Nitro with OpenAI Python, you need to install the `openai` package using pip. Here's how you can do it:
+
+```bash title=""Install OpenAI""
+pip install openai
+```
+
+Then, you can use the following code as an example:
+
+```python
+import asyncio
+
+from openai import AsyncOpenAI
+
+# gets API Key from environment variable OPENAI_API_KEY
+client = AsyncOpenAI(
+    base_url=""http://localhost:3928/v1/"",
+    api_key=""sk-xxx""
+)
+
+
+async def main() -> None:
+    stream = await client.chat.completions.create(
+        model=""gpt-4"",
+        messages=[{""role"": ""user"", ""content"": ""Say this is a test""}],
+        stream=True,
+    )
+    async for completion in stream:
+        print(completion.choices[0].delta.content, end="""")
+    print()
+
+asyncio.run(main())
+```",D
+How do I specify the logging folder?,"A. 
+To specify the logging folder in Nitro, you need to use the `llama_log_folder` parameter in the command as shown below:
+```bash title=""Config logging"" {5}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""llama_log_folder"": ""/path/to/log/folder/""
+  }'
+```
+Ensure that the log folder exists before running this command. If the specified folder does not exist, logs will default to your current directory.","B. You can specify the logging folder by providing a path to it in the `--logdir` argument when running the script. For example, if you want to log to the 'logs' directory in your current working directory, you would use the following command: ","C. You can specify the logging folder by providing a path to it when creating an instance of Nitro. The path should be provided as a parameter to the `baseURL` argument in the JSON data. Here's an example: 
+```json
+{
+""baseURL"": ""http://localhost:3928/inferences/llamacpp/loadmodel"",
+""llama_model_path"": ""/path/to/your_model.gguf"",
+""ctx_len"": 512,
+""ngl"": 100,
+""log_folder_path"": ""/logs""
+}","D. You can specify the logging folder in your code like this: 
+```python
+llama_log_folder = ""/path/to/log/folder""
+```
+Replace '/path/to/log/folder' with the actual path to your log folder. 
+Remember, the specified folder must exist before running the command.",A
+Which OS does Nitro support?,A. Nitro supports Linux and Windows operating systems. This means that it can be installed and used on these two types of computers,"B. Nitro supports Windows, Linux, and MacOS operating systems.",C. Nitro supports Linux and MacOS operating systems. This means that it can be installed and used on these two types of computers,D. Nitro supports MacOS and Windows operating systems. This means that it can be installed and used on these two types of computers,B
+What is Nitro's default port?,A. Nitro's default port is 5000.,B. Nitro's default port is 8000.,C. Nitro's default port is 3928.,D. 1337,C
+How can I configure prompts?,"A. To configure prompts, you need to specify the 'ai_prompt', 'user_prompt', and 'system_prompt' in your code. These are prefixes that indicate the role of the prompt. You should configure them based on your model.","B. To configure prompts, you need to send a POST request to the inference server at http://localhost:3928/inferences/llamacpp/loadmodel. The body of this request should be a JSON object that includes the parameters for the prompt configuration.","C. You can configure the behavior of the assistant by defining the system, user, and assistant prompts in the `ai_prompt` parameter. For example: 
+```python
+ai_prompt = ""ASSISTANT: You are a helpful assistant.\nUSER: Who won the world series in 2020?\nASSISTANT:""
+```
+In this example, the system prompt is 'You are a helpful assistant', the user prompt is 'Who won the world series in 2020?', and there is no assistant prompt as it's an empty string.","D. 
+
+To configure prompts, you need to specify prefixes for different roles in the AI interaction. These prefixes are used to indicate who is speaking or prompting at any given time during the conversation. In the provided example, there are four types of prompts: ""pre_prompt"", ""ai_prompt"", ""user_prompt"", and ""system_prompt"".
+
+Here's an example of how you can configure these prompts in a JSON object:
+
+```
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""ctx_len"": 128,
+    ""ngl"": 100,
+    ""pre_prompt"": ""You are a Pirate. Using drunk language with a lot of Arr..."",
+    ""system_prompt"": ""ASSISTANT'S RULE: "",
+    ""user_prompt"": ""USER:"",
+    ""ai_prompt"": ""ASSISTANT: ""
+  }'
+```
+
+In this example, the prefixes are defined as follows:
+- `""pre_prompt""` is a global prompt that sets the context for the conversation. This can be used to provide information about the character or situation before starting the interaction.
+- `""system_prompt""` represents the system's response or instruction, typically used when providing information or clarifying rules of the game/context.
+- `""user_prompt""` is a prompt for the user to enter their input. This can be customized based on how you want to prompt the user for their input in the conversation.
+- `""ai_prompt""` represents the AI's response or answer to the user's input. This can also be customized based on your specific needs.
+
+You can adjust these prefixes according to your requirements and model. The JSON object is sent as a request body when loading the LLM model using curl or other tools.",D
+How can I change the number of layers to load to GPU?,"A. 
+
+In the provided POST request for enabling GPU inference, you can adjust the `ngl` parameter based on your requirements and GPU capabilities. The `ngl` stands for ""number of GPU layers"" and it determines how many layers will be loaded into the GPU.
+
+Here's an example of how to modify the request to load 4 GPU layers:
+
+```bash title=""GPU enable with 4 layers"" {5}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""ctx_len"": 512,
+    ""ngl"": 4,
+  }'
+```
+
+Remember to replace `""/path/to/your_model.gguf""` with the actual path to your model file.",B. You can change the number of layers to load to GPU by modifying the 'n_parallel' parameter in the JSON data. This is the value that you need to set when using the '--data' option with the 'curl' command.,"C. To configure prompts, you need to send a POST request to the inference server at http://localhost:3928/inferences/llamacpp/loadmodel. The body of this request should be a JSON object that includes the parameters for the prompt configuration.","D. In the given code snippet, the `num_gpu_layers` parameter is used to specify the number of layers to load to the GPU. You can adjust this value based on your requirements and GPU capabilities.",A
+How do I use ChatboxGPT with Nitro?,"A. To use ChatboxGPT with Nitro, you need to follow these steps: 
+1. Install the necessary dependencies by running `pip install openai` and `pip install nitro`.
+2. Replace 'api-key' in the code snippet with your actual OpenAI API key.
+3. Run the code using `python chatboxgpt.py`.
+4. The chatbot will start and you can interact with it.",B. Start Nitro server by running `nitro` in your terminal.,"C. You can use ChatboxGPT with Nitro by following the instructions provided in the 'Usage' section of the Nitro documentation. Here are the general steps:
+
+1. Install Nitro on your system if it is not already installed.
+2. Open the Nitro app or interface.
+3. Load the ChatboxGPT model into Nitro. This can be done using specific commands or options depending on the version of Nitro you are using.
+4. Once the model is loaded, you can start interacting with it just like you would with any other AI model. You can ask questions, make requests, and observe the responses generated by the model.","D. 1. Start Nitro server
+Open your terminal and run:
+```
+nitro
+```
+
+2. Download Model
+```
+mkdir model && cd model
+wget -O stealth-7b.gguf https://huggingface.co/janhq/stealth-v1.3-GGUF/resolve/main/stealth-v1.3.Q4_K_M.gguf
+```
+3. Run the Model
+```
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""model/stealth-7b.gguf"",
+    ""ctx_len"": 512,
+    ""ngl"": 100,
+  }'
+```
+4. Configure chatGPTBox
+- Click the chatGPTBox icon in your browser to open the main menu.
+- In the API Mode section, switch to Custom Model.
+- Change the name to Stealth 7B and set the host to http://localhost:3928/v1/chat/completions",D
+What are the main differences between Chat Completion and Vision?,"A. In Chat Completion we only need 1 GGUF model. Whereas, in Vision we need to use 1 GGUF model and 1 MMPROJ model. ","B. 1. Scope of applicability: Chat Completion is a text-based AI model that generates responses based on given prompts or questions. On the other hand, Vision is an image recognition and processing model that can analyze visual content like images or videos.
+2. Input type: Chat Completion operates on textual inputs while Vision works with visual inputs.
+3. Output type: The output of Chat Completion is a text response to a given prompt or question, whereas the output of Vision is an analysis or interpretation of visual data.","C. The main difference between Chat Completion and Vision lies in their functionalities. While Chat Completion is designed to generate responses for a given prompt, Vision is used for tasks related to visual data processing.","D. While Chat Completion is used for generating responses in a chat interface, Vision is used for analyzing images and videos.",A
+How to use the continuous batching feature?,"A. To use the continuous batching feature in Nitro, you need to set the `cont_batching` parameter to true. Here's an example:
+```python
+cont_batching = True
+```
+This will enable continuous batching in your model.","B. To enable the `continuous batching` feature in Nitro, use this:
+
+Make a request to load the model with the `cont_batching` parameter set to true:
+```bash title=""Enable Batching"" {6,7}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""ctx_len"": 512,
+    ""cont_batching"": true,
+    ""n_parallel"": 4
+  }'
+```","C. To use the continuous batching feature, you need to set the `cont_batching` parameter to True. This can be done in the JSON object that is passed to the `embeddings.create` method. Here's an example: 
+```python
+data = {
+""input"": ""Hello How are you?"",
+""cont_batching"": true,
+}
+```","D. To enable the `continuous batching` feature in Nitro, use this:
+
+Make a request to load the model with the `cont_batching` parameter set to true:
+```bash title=""Enable Batching"" {6,7}
+curl http://localhost:3928/inferences/llamacpp/loadmodel \
+  -H 'Content-Type: application/json' \
+  -d '{
+    ""llama_model_path"": ""/path/to/your_model.gguf"",
+    ""ctx_len"": 512,
+    ""continous_batching"": true,
+    ""n_parallel"": 4
+  }'
+```",B
+Where can I read the Nitro's documentation?,A. You can read Nitro's documentation at https://nitro.jan.ai/docs.,"B. I suggest searching online for ""Nitro documentation"" or visiting the official website of Nitro to find more information and resources related to their product documentation.","C. if you have access to a web browser, you can copy the URL and paste it into the address bar or click on the link provided. The documentation will be displayed in your web browser for you to read.",D. You can go to Nitro Discord,A
+Show me body schema of Status.,"A. ""
+```json
+{
+""""llama_model_path"""": """"/path/to/your_model.gguf"""",
+""""ctx_len"""": 512,
+""""ngl"""": 30,
+""""seed"""": 42,
+""""cont_batching"""": true,
+""""cont_length"""": 100,
+""""n_parallel"""": 8,
+""""version"""": """"0.1.7"""",
+""""embedding_dim"""": 512,
+""""output_scale"""": 0.1,
+""""init_method"""": """"uniform"""",
+""""init_min"""": -0.1,
+""""init_max"""": 0.1,
+""""dropout"""": 0.1,
+""""activation"""": """"relu"""",
+""""hidden_size"""": 512,
+""""num_layers"""": 6,
+""""type"""": """"LlamaCPP"""",
+""""head_method"""": """"additive"""",
+""""head_dim"""": 64,
+""""bias"""": true,
+""""layer_norm"""": false,
+""""use_gpu"""": false,
+""""pre_prompt"""": """""""",
+""""post_prompt"""": """"""""
+}
+```
+This is the body schema of Status. It contains various fields like `llama_model_path`, `ctx_len`, `ngl`, `seed`, etc., which are used to configure the model.""","B. 
+
+The body schema for Status is not provided in the given context. However, it seems that the API expects a JSON payload with a single field called ""model_name"" to check the status of a specific model on Nitro server. The schema for this request can be found under the ""StatusRequest"" component in the YAML file.
+
+Here is an example of how you might construct the body:
+```json
+{
+  ""model_name"": ""my-model""
+}
+```
+Please note that this information is derived from the context and not explicitly stated, so it should be verified with the actual API documentation or implementation.","C. 
+```json
+{
+""llama_model"": {
+""llama_model_path"": ""/path/to/your_model.gguf"",
+""ctx_len"": 512,
+""ngl"": 30,
+""embedding_dim"": 768,
+""ffn_num_layers"": 2,
+""head_num"": 4,
+""dropout"": 0.1,
+},
+}
+```","D. ```json
+{
+  ""model_data"": {
+    ""model_loaded"": true,
+    ""frequency_penalty"": 0,
+    ""grammar"": """",
+    ""ignore_eos"": false,
+    ""logit_bias"": [],
+    ""mirostat"": 0,
+    ""mirostat_eta"": 0.1,
+    ""mirostat_tau"": 5,
+    ""model"": ""nitro/model/zephyr-7b-beta.Q5_K_M.gguf"",
+    ""n_ctx"": 42,
+    ""n_keep"": 0,
+    ""n_predict"": 100,
+    ""n_probs"": 0,
+    ""penalize_nl"": true,
+    ""presence_penalty"": 0,
+    ""repeat_last_n"": 64,
+    ""repeat_penalty"": 1.1,
+    ""seed"": 4294967295,
+    ""stop"": [
+      ""hello"",
+      ""USER: ""
+    ],
+    ""stream"": true,
+    ""temp"": 0.7,
+    ""tfs_z"": 1,
+    ""top_k"": 40,
+    ""top_p"": 0.95,
+    ""typical_p"": 1
+  }
+}
+```",D
