@@ -2,7 +2,7 @@
 This repository contains all of Jan's research and sample code
 
 # Research
-- 1. [Improving opensource models on specialized tasks](https://github.com/janhq/open-foundry/tree/main/rag-is-not-enough)
+1. [Improving opensource models on specialized tasks](https://github.com/janhq/open-foundry/tree/main/rag-is-not-enough)
 
 # License
 
